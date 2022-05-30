@@ -6,8 +6,22 @@ from django.utils.translation import gettext_lazy as _
 
 class Tag(models.Model):
     title = models.CharField(max_length=64, null=True)
+    # If yes this is considered as core tag.
+    core_tags = models.BooleanField(null=True)
+    # This is for making it easy for recommending the posts
+    # to the users.
+    derived_from = models.OneToOneField(
+        "Tag", on_delete=models.CASCADE, null=True, blank=True
+    )
     short_discription = models.CharField(max_length=128, null=True)
     long_discription = models.TextField(max_length=1024, null=True)
+
+    class Meta:
+        verbose_name = _("Tag")
+        verbose_name_plural = _("Tag")
+
+    def __str__(self):
+        return str(self.title)
 
 
 class Post(models.Model):
