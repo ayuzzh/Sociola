@@ -6,13 +6,16 @@ from django.utils.translation import gettext_lazy as _
 
 class Tag(models.Model):
     title = models.CharField(max_length=64, null=True)
+
     # If yes this is considered as core tag.
     core_tags = models.BooleanField(null=True)
+
     # This is for making it easy for recommending the posts
     # to the users.
     derived_from = models.OneToOneField(
         "Tag", on_delete=models.CASCADE, null=True, blank=True
     )
+
     short_discription = models.CharField(max_length=128, null=True)
     long_discription = models.TextField(max_length=1024, null=True)
 
@@ -53,10 +56,18 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+
+    # Replies for a comment is also considered as Comments.
+
     content = models.TextField(max_length=4096, blank=True)
+
     author = models.OneToOneField(User, on_delete=models.CASCADE)
+
     likes = models.PositiveIntegerField(default=0)
     dislikes = models.PositiveIntegerField(default=0)
+
+    # This is set to null by default but if anyone replies to this
+    # comment then that comment will be added to this field.
     sub_comments = models.ManyToManyField("Comment", blank=True)
 
     class Meta:
@@ -68,10 +79,15 @@ class Comment(models.Model):
 
 
 class Profile(models.Model):
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
     posts_list = models.ManyToManyField(Post, blank=True)
+
     interested_topics = models.ManyToManyField(Tag, related_name="interested")
     extracted_topics = models.ManyToManyField(Tag, blank=True, related_name="extracted")
+
+    # Here comments and replies are listed
     comments_author = models.ManyToManyField(Comment, blank=True)
 
     class Meta:
