@@ -26,10 +26,22 @@ class Tag(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=64, null=True)
+
+    # raw_content contains post content in the form of markdown.
     raw_content = models.TextField(max_length=100000, null=True)
+
+    # compiled_content contains post content in form of html markup
+    # which can be render.
     compiled_content = models.TextField(max_length=150000, null=True)
+
     author = models.OneToOneField
+
+    # Relavent tags to this post.
     tags = models.ManyToManyField(Tag)
+
+    likes = models.PositiveIntegerField(default=0)
+    dislikes = models.PositiveIntegerField(default=0)
+
     time = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
