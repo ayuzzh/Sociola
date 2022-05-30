@@ -96,3 +96,12 @@ class Profile(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+
+class UserDataExtending(models.Model):
+
+	user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+
+	profile = models.OneToOneField(Profile, on_delete=models.CASCADE, null=True, blank=True)
+
+	history = models.ManyToManyField(Post, blank=True)
