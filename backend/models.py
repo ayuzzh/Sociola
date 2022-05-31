@@ -107,3 +107,10 @@ class UserDataExtending(models.Model):
     )
 
     history = models.ManyToManyField(Post, blank=True)
+
+    class Meta:
+        verbose_name = _("User Data Extension")
+        verbose_name_plural = "User Data Extension"
+
+    def __str__(self):
+        return self.user
