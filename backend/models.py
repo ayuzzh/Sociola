@@ -100,8 +100,10 @@ class Profile(models.Model):
 
 class UserDataExtending(models.Model):
 
-	user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
 
-	profile = models.OneToOneField(Profile, on_delete=models.CASCADE, null=True, blank=True)
+    profile = models.OneToOneField(
+        Profile, on_delete=models.CASCADE, null=True, blank=True
+    )
 
-	history = models.ManyToManyField(Post, blank=True)
+    history = models.ManyToManyField(Post, blank=True)
